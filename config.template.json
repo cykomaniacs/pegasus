@@ -1,0 +1,71 @@
+{
+  "instructions": {
+    "1": "fill out the parameters according to your your setup",
+         "1.1": "take an  extra look at the @mode data",
+    "2": "rename this file to <config.json>",
+
+    "powershell": [
+      "--------------------------------------------------------------------",
+      "$ npm <run> <nuke>",  " - cleanup the environment",
+      "$ npm <run> <init>",  " - prepare the environment (installs deps)",
+      "$ npm <run> <test>",  " - execute the app (using @mode.test config)",
+      "$ npm <run> <main>",  " - execute the app (using @mode.main config)",
+      "--------------------------------------------------------------------"
+    ],
+
+    "remarks": [
+      "this app is not intended for public use",
+      "(thus very specific to my needs)",
+
+      "there is almost no error checking",
+      "(be aware of bugs)",
+
+      "// eggheadedmonkey - 2022"
+    ]
+  },
+
+  "log": {
+    "verbose": false
+  },
+
+  "mode": {
+    "main": {
+      "info":  "main",
+      "port":  9990,
+      "name":  "mixpanel-project-name",
+      "token": "mixpanel-project-token"
+    },
+    "test": {
+      "info":  "test",
+      "port":  9991,
+      "name":  "mixpanel-project-name",
+      "token": "mixpanel-project-token"
+    }
+  },
+
+  "data": {
+    "structure": {
+      "Server": [
+        { "title": "Server" }
+      ],
+      "Account": [
+        { "title": "Account" },
+        { "title": "distinct_id" }
+      ],
+      "Player": [
+        { "title": "Player" },
+        { "publicAddress": "Address" }
+      ],
+      "Metadata": [
+        { "librarySectionTitle": "Library" },
+        { "title": "Title" },
+        { "parentTitle": "ParentTitle" },
+        { "grandparentTitle": "GrandParentTitle" },
+        { "index": "Index" },
+        { "parentIndex": "ParentIndex" }
+      ]
+    },
+
+    "user": { "key": "Account" , "property": "distinct_id" }
+  }
+}

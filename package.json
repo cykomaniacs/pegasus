@@ -1,0 +1,40 @@
+{
+  "name": "pegasus",
+  "description": "Cyko: Plex Hooker (mixpanel.com)",
+  "version": "0.1.0",
+  "main": "main.js",
+  "type": "commonjs",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "eggheadedmonkey",
+    "email": "cyko@eggheadedmonkey.com"
+  },
+  "scripts": {
+    "nuke": "pwsh clean.ps1",
+    "preinit": "npm run nuke",
+    "init": "npm install",
+    "test": "node main.js test",
+    "main": "node main.js main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cykomaniacs/pegasus.git"
+  },
+  "maintainers": [
+    {
+      "name": "eggheadedmonkey",
+      "email": "cyko@eggheadedmonkey.com"
+    }
+  ],
+  "dependencies": {
+    "express": "*",
+    "mixpanel": "*",
+    "multer": "*"
+  },
+  "devDependencies": {
+    "@types/express": "*",
+    "@types/mixpanel": "*",
+    "@types/multer": "*"
+  }
+}
