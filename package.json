@@ -11,7 +11,9 @@
     "email": "cyko@eggheadedmonkey.com"
   },
   "scripts": {
-    "nuke": "pwsh nuke.ps1",
+    "nuke:nix": "bash ./nuke/nix.bash",
+    "nuke:win": "pwsh ./nuke/win.ps1",
+    "nuke": "npm run nuke:win",
     "init": "npm install",
     "test": "node main.js test",
     "main": "node main.js main",

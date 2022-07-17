@@ -1,0 +1,74 @@
+{
+  "recommendations": [
+    // ----------------------------------------------------------------------
+    // #region VISUALS / THEMING
+    // ----------------------------------------------------------------------
+    // THEMES | TEXT
+    // --------------------------------
+    "beardedbear.beardedtheme",           // Bearded
+    "robbowen.synthwave-vscode",          // SynthWave '84
+    "kyleerickson.night-rider",           // Night Rider
+    "gulajavaministudio.mayukaithemevsc", // Mayukai
+    "dracula-theme.theme-dracula",        // Dracula Official
+    // --------------------------------
+    // THEMES | ICON
+    // --------------------------------
+    "beardedbear.beardedicons",                  // Bearded
+    "jonathanharty.gruvbox-material-icon-theme", // Gruvbox Material
+    // ----------------------------------------------------------------------
+    // #endregion
+    // ----------------------------------------------------------------------
+
+
+    // ----------------------------------------------------------------------
+    // #region BASICS
+    // ----------------------------------------------------------------------
+    "visualstudioexptteam.vscodeintellicode", // IntelliCode
+    "ahgood.set-syntax", // Set Syntax (statusbar)
+    "TabNine.tabnine-vscode", // Tabnine AI Autocompletion
+    // ----------------------------------------------------------------------
+    // #endregion
+    // ----------------------------------------------------------------------
+
+
+    // ----------------------------------------------------------------------
+    // #region LANGUAGES
+    // ----------------------------------------------------------------------
+    // SHELL | POSH
+    // --------------------------------
+  //"ms-vscode.powershell",
+    "ms-vscode.powershell-preview",
+    // --------------------------------
+    // MARKDOWN
+    // --------------------------------
+    "bierner.github-markdown-preview",
+    "bierner.markdown-checkbox",
+    "bierner.markdown-emoji",
+    "bierner.markdown-footnotes",
+    "bierner.markdown-preview-github-styles",
+    "bierner.markdown-shiki",
+    "bierner.markdown-yaml-preamble",
+    // --------------------------------
+    // MISC
+    // --------------------------------
+    "ms-vscode.hexeditor", // Hex Editor
+    // ----------------------------------------------------------------------
+    // #endregion
+    // ----------------------------------------------------------------------
+
+
+    // ----------------------------------------------------------------------
+    // #region GIT
+    // ----------------------------------------------------------------------
+    "github.vscode-pull-request-github", // GitHub (Issues)
+    "eamodio.gitlens", // GitLens
+    // --------------------------------
+    // CODESPACES
+    // --------------------------------
+    "github.codespaces",
+    "ms-vscode-remote.remote-containers",
+    // ----------------------------------------------------------------------
+    // #endregion
+    // ----------------------------------------------------------------------
+  ]
+}
