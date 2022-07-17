@@ -11,11 +11,12 @@
     "email": "cyko@eggheadedmonkey.com"
   },
   "scripts": {
-    "nuke": "pwsh clean.ps1",
-    "preinit": "npm run nuke",
+    "nuke": "pwsh nuke.ps1",
     "init": "npm install",
     "test": "node main.js test",
-    "main": "node main.js main"
+    "main": "node main.js main",
+    "preredo": "npm run nuke",
+    "redo": "npm run init"
   },
   "repository": {
     "type": "git",
