@@ -28,7 +28,18 @@ const lib = {
 
 const nox = {
   has(o, k) { return Object.prototype.hasOwnProperty.call(o, k) },
-  get(o, k, d = null) { return this.has(o, k) ? o[k] : d }
+  get(o, k, d = null) { return this.has(o, k) ? o[k] : d },
+  gex(o, k, f) {
+    f = f || function(e) { throw e }
+
+    if (this.has(o, k))
+    {
+      return o[k]
+    } else {
+      f(new Error())
+      throw new Error(...x)
+    }
+  }
 }
 
 // #endregion
@@ -36,11 +47,12 @@ const nox = {
 
 const log = {
   out(...x) { lib.log.out(lib.log.pre, ...x) },
-  err(...x) { lib.log.out(lib.log.pre, ...x) },
-  bug(...x) { lib.log.err(new Error(string(...x))) },
+  err(...x) { lib.log.err(lib.log.pre, ...x) },
+//bug(...x) { lib.log.err(new Error(string(...x))) },
   dbg(...x) {
     if (cfg.log.verbose) {
-      this.err(...x)
+      //this.err(...x)
+      this.out(...x)
     }
   }
 }
@@ -68,12 +80,12 @@ class EventData {
       // note: mixpanel expects string values
 
       // event name
-      this.#name = String(obj.event)
+      this.#name = String(nox.get(obj, 'event')) //, 'invalid event.name'))
 
       // event properties
       for (const key in cfg) {
         if (nox.has(obj, key)) {
-          cfg[key].forEach((o) => {
+          cfg[key].foreach((o) => {
             for (const k in o) {
               if (nox.has(obj[key], k)) {
                 this.#data[o[k]] = String(obj[key][k])
@@ -84,21 +96,23 @@ class EventData {
       }
 
       // event user
-      this.#user = nox.get(this.#data, usr.key, null)
+      this.#user = String(nox.get(this.#data, usr.key)) //, 'invalid event.user')
     } else {
-      log.err('@ EventData(obj, cfg, usr) : missing one or more arg ...')
-      log.err('> obj:', Boolean(obj))
-      log.err('> cfg:', Boolean(cfg))
-      log.err('> usr:', Boolean(usr))
+      log.err('EventData(obj, cfg, usr) : missing one or more arg ...')
+      log.err('> obj:', Boolean(obj == null))
+      log.err('> cfg:', Boolean(cfg == null))
+      log.err('> usr:', Boolean(usr == null))
+      throw new Error('...')
     }
   }
 
-  get name() { return this.#name }
+  get name() { return String(this.#name) }
   get data() { return this.#data }
-  get user() { return this.#user }
+  get keys() { return Object.keys(this.#data).length }
+  get user() { return String(this.#user) }
 
   complete() {
-    return String(this.#name).length > 1 && Object.keys(this.#data).length > 1
+    return this.name.length > 1 && this.keys > 1
   }
 }
 
@@ -129,21 +143,59 @@ web.listen(cfg.mode[key].port, () => {
 // #region http:hook (post) ------------------------------------------------ *
 
 web.post('/', get.any(), (req, res) => {
-  log.out('(http/post) hook!')
+  const out = (...x) => { log.out('[post]', ...x) }
+  const dbg = (...x) => { log.dbg('[post]', ...x) }
+  const err = (...x) => { log.err('[post]', ...x) }
 
-  var p = req.body ? JSON.parse(req.body.payload) : null
-  var h = req.headers || { 'user-agent': null }
+  if (req)
+  {
+    out('hook!')
 
-  log.dbg('(http/post) body.payload:', p)
+    try
+    {
+      let p = JSON.parse(nox.get(nox.get(req, 'body', {}), 'payload'))
+      let e = new EventData(p,
+        cfg.data.structure,
+        cfg.data.user
+      )
 
-  log.out('(http/post) headers:', h)
-  log.out('(http/post) headers[user-agent]:', h['user-agent'])
-  log.out('>---------')
+      out('event.name', e.name)
+      out('event.user', e.user)
+      out('event.data', e.data)
 
-  var e = new EventData(p,
-    cfg.data.structure,
-    cfg.data.user
-  )
+      if (e.complete()) {
+        out('event.send() > mixpanel.com')
+        mix.track(e.name, e.data, (err) => {
+          if (err) {
+            throw new Error(err)
+          }
+        })
+      } else {
+        res.sendStatus(500)
+        err('event.skip()')
+      }
+    } catch (error) {
+      res.sendStatus(500)
+      err('exception!')
+      err(error)
+    }
+
+  } else {
+    res.sendStatus(500)
+    err('hook(null)!')
+  }
+
+  res.sendStatus(200)
+/*
+  var p = req.body ?  : null
+  var h = req.headers || { 'user-agent' : null }
+
+  log.dbg('(http/post) payload:', p)
+  //g.dbg('}')
+  log.dbg('(http/post) headers:', h)
+  log.dbg('(http/post) headers[user-agent]:', h['user-agent'])
+  log.dbg('>---------')
+
 
   log.out('(http/post) event.name:', e.name)
   log.out('(http/post) event.user:', e.user)
@@ -159,6 +211,7 @@ web.post('/', get.any(), (req, res) => {
   } else {
     log.err('(http/post) event.skip()')
   }
+  */
 })
 
 // #endregion
